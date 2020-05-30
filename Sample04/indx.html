@@ -36,13 +36,13 @@
 
         timer_id = setInterval(goTimer, 10);
 
-        //ストップ機能
+        //ストップ表示
         this.innerHTML = 'STOP';
         this.classList.remove('btn-primary');
         this.classList.add('btn-danger');
       } else {
         clearInterval(timer_id);
-
+        //ストップ機能
         this.innerHTML = 'START';
         this.classList.remove('btn-danger');
         this.classList.add('btn-primary');
