@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Photos</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/style.css">
+  </head>
+
+  <body>
+    <header>
+      <h1>My photos</h1>
+    </header>
+
+    <div class="contaner">
+      <div id="img_unit">
+
+      </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script>
+      // $('#img_unit').html('ここに画像リストが表示されます').css('margin-top', '100px');
+      $.getJSON('https://h2o-space.com/htmlbook/images.php', function (date) {
+        for (var i = 0; i < date.length; i++) {
+          $('<div class = "photo"></div>')
+            .append('<img src="' + date[i].path + '">')
+            .append('<div class = "inner"><p>' + date[i].caption + '<span>' + date[i].name + '</span>,</p></div>')
+            .appendTo('#img_unit');
+        }
+      })
+    </script>
+  </body>
+
+</html>
