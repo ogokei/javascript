@@ -26,29 +26,58 @@
     </div>
   </div>
   <script>
-    //ゼロを追加する
+    var start;
+    var timer_id;
+
+    document.getElementById('start_stop').addEventListener('click', function () {
+      if (this.innerHTML === 'START') {
+
+        start = new Date();
+
+        timer_id = setInterval(goTimer, 10);
+
+        //ストップ機能
+        this.innerHTML = 'STOP';
+        this.classList.remove('btn-primary');
+        this.classList.add('btn-danger');
+      } else {
+        clearInterval(timer_id);
+
+        this.innerHTML = 'START';
+        this.classList.remove('btn-danger');
+        this.classList.add('btn-primary');
+      }
+
+    });
+
     var addZero = function (value) {
       if (value < 10) {
         value = '0' + value;
       }
+
       return value;
     }
 
-    document.getElementById('start_stop').addEventListener('click', function () {
-
+    var goTimer = function () {
       var now = new Date();
-      var seconds = now.getSeconds(); //秒を取得
-      seconds = addZero(seconds);
 
-      var minutes = now.getMinutes(); //分を取得
-      minutes = addZero(minutes);
+      var milli = now.getTime() - start.getTime();
+      var seconds = Math.floor(milli / 1000);
+      var minute = Math.floor(seconds / 60);
+      var hours = Math.floor(minute / 60);
 
-      var hours = now.getHours(); //時を取得
-      hours = addZero(hours);
+      // hours = addZero(hours);
+      // minute = addZero(minute);
+      // seconds = addZero(seconds);
 
-      document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
 
-    });
+      seconds = seconds - minute * 60;
+      minute = minute - hours * 60;
+
+      document.getElementById('timer').innerHTML = addZero(hours) + ':' + addZero(minute) + ':' + addZero(seconds);
+
+    }
+
   </script>
 </body>
 
