@@ -4,19 +4,129 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ALERM</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+      integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
   </head>
 
   <body>
     <div class="container">
-      <p>時間</p>
+      <!-- <img src="img/01.jpg" alt="#"> -->
+      <!-- 現在の時間 -->
       <div class="nowTime">
-
+        <div class="times">
+          <h7>Now!!!!</h7>
+          <p id="timer">00:00:00</p>
+        </div>
       </div>
+      <!-- 目標時間 -->
+      <div class="setTimer">
+        <p>設定時間(分)</p>
+        <input id="limit" type="text" value="10">
+        <!-- <input type="text" value="red" id="text3" maxlength="5"> -->
+        <!-- <p>分</p> -->
+        <!-- <label id="limit" for="time">設定時間</label>
+        <select name="food" id="food">
+          <option value="1">1</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="30">30</option>
+        </select> -->
+        <!-- <button id="start" class="btn btn-lg btn-primary">START</button> -->
+      </div>
+      <!-- 経過時間 -->
+      <div class="elapsedTime">
 
+        <p id="timer2">00:00:00</p>
+        <button id="start" class="btn btn-lg btn-primary">START</button>
+      </div>
+      <!-- メッセージ -->
+      <p id="message"></p>
+      <!-- <img src="img/01.jpg" alt="" id="img"> -->
+
+      <script>
+        var timer_id;
+        var start;
+        var limit_Time;
+        // 目標タイムと比較するためグローバル変数に定義
+        var minute;
+
+        onload = function () {
+          timer_id = setInterval(nowTimes, 10)
+        };
+        //現在の時間表示メゾット
+        var nowTimes = function () {
+          var now = new Date();
+          var seconds = now.getSeconds();
+          var minutes = now.getMinutes();
+          var hours = now.getHours();
+          document.getElementById('timer').innerHTML = hours + ':' + minutes + ':' + seconds;
+
+        }
+
+        //startボタンが押下された時
+        document.getElementById('start').addEventListener('click', function () {
+          if (this.innerHTML === 'START') {
+            start = new Date();
+
+            timer_id = setInterval(goTimer, 10);
+
+            limit_Time = document.getElementById("limit").value;
+
+            //ストップ表示
+            this.innerHTML = 'STOP';
+            this.classList.remove('btn-primary');
+            this.classList.add('btn-danger');
+            document.getElementById('message').innerHTML = '';
+
+          } else {
+            clearInterval(timer_id);
+            //ストップ機能
+            // console.log(limit_Time);
+            // console.log(minute);
+            this.innerHTML = 'START';
+            this.classList.remove('btn-danger');
+            this.classList.add('btn-primary');
+            // メッセージボードの切り替え
+            if (limit_Time <= minute) {
+              document.getElementById('message').innerHTML = '目標時間達成おめでとう！！！！！！';
+            } else {
+              document.getElementById('message').innerHTML = 'もう少し頑張りましょう！！！！！';
+            }
+          }
+
+        });
+        //経過時間メゾット
+        var goTimer = function () {
+          var now = new Date();
+
+          var milli = now.getTime() - start.getTime();
+          var seconds = Math.floor(milli / 1000);
+          minute = Math.floor(seconds / 60);
+          var hours = Math.floor(minute / 60);
+
+          seconds = seconds - minute * 60;
+          minute = minute - hours * 60;
+
+          document.getElementById('timer2').innerHTML = addZero(hours) + ':' + addZero(minute) + ':' + addZero(seconds);
+
+        }
+        var addZero = function (value) {
+          if (value < 10) {
+            value = '0' + value;
+          }
+
+          return value;
+        }
+
+      </script>
     </div>
-
   </body>
 
 </html>
